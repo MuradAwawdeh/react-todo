@@ -7,6 +7,7 @@
 * x CCS grid layout, scss
 * x google fonts
 * x styled components
+* x hooks and custom hooks
 
 # Getting Started with Create React App
 

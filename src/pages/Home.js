@@ -3,15 +3,19 @@ import Todos from "../components/Todos";
 import Input from "../components/styled-components/Input";
 import Button from "../components/styled-components/Button";
 import { FaPlus } from "react-icons/fa";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+    const [token] = useAuth();
+    const navigate = useNavigate();
     const [todos, setTodos] = useState([]);
     const [isInputShown, setIsInputShown] = useState(false);
     const [todoText, setTodoText] = useState("");
     const inputRef = useRef();
     useEffect(() => {
         async function fetchTodos(){
-            let res = await fetch(process.env.REACT_APP_TODOS_URL);
+            let res = await fetch(`${process.env.REACT_APP_BASE_URL}todos`);
             let todos = await res.json();
             todos = todos.slice(0, 10);
             setTodos(todos);
@@ -66,6 +70,11 @@ export default function Home() {
         if(e.keyCode === 13)
             addTodo();
     };
+    useEffect(() => {
+        if(!token)
+            navigate("/login");
+    });
+    if(!token) return (<></>);
     return (
         <div style={styles.container}>
             <div style={styles.header}>

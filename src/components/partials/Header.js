@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Header() {
+    const [token] = useAuth();
     return (
         <nav>
             <div>
@@ -9,7 +11,8 @@ export default function Header() {
             <ul>
                 <li><Link to="/about">About</Link></li>
                 |
-                <li><Link to="/login">Login</Link></li>
+                {!token && <li><Link to="/login">Login</Link></li>}
+                {token && <li><Link to="/login">Logout</Link></li>}
             </ul>
         </nav>
     );
