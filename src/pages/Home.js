@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    const [token] = useAuth();
+    const {token} = useAuth();
     const navigate = useNavigate();
     const [todos, setTodos] = useState([]);
     const [isInputShown, setIsInputShown] = useState(false);
@@ -90,7 +90,10 @@ export default function Home() {
                            onKeyUp={(e) => onKeyUP(e)}/>
                 </div>
             </div>
-            <Todos todos={todos} onTodoToggle={onTodoToggle} onTodoDelete={onTodoDelete}/>
+            {todos.length > 0 && <Todos todos={todos} onTodoToggle={onTodoToggle} onTodoDelete={onTodoDelete}/>}
+            {todos.length === 0 && (
+                <div>You have no Todos, click add todo to add some.</div>
+            )}
         </div>
     );
 }

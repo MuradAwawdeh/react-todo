@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 export default function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassowrd] = useState("");
-    const [token, setToken] = useAuth();
+    const [error, setError] = useState("");
+    const {token, setToken} = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -25,8 +26,12 @@ export default function LoginForm() {
             if(data.token){
                 setToken(data.token);
                 navigate("/");
+            }else if(data.message) {
+                setError(data.message);
             }
-        }catch(e){}
+        }catch(e){
+            setError("An error occured");
+        }
     };
     
     useEffect(() => {
@@ -40,13 +45,14 @@ export default function LoginForm() {
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div>
                     <label>Username</label><br/>
-                    <Input value={username} onChange={(e) => setUsername(e.target.value)} type="text" />
+                    <Input value={username} placeholder={"use user 'demo'"} onChange={(e) => setUsername(e.target.value)} type="text" />
                 </div>
                 <div>
                     <label>Password</label><br/>
-                    <Input value={password} onChange={(e) => setPassowrd(e.target.value)} type="password" />
+                    <Input value={password} placeholder={"use password 'demo'"} onChange={(e) => setPassowrd(e.target.value)} type="password" />
                 </div>
                 <Button className={styles.submit} type="submit">Login</Button>
+                {error && <div className={styles.alert}>{error}</div>}
             </form>
         </div>
     );
