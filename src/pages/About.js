@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 export default function About() {
+    useEffect(() => {
+        fetch("http://localhost:8080/login")
+    }, []);
     return (
         <div>
             <p>
