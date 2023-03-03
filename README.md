@@ -1,4 +1,4 @@
-# This a demontration React project
+# This is a demontration React project
 **In this project I will be using or implementing the following:**
 * simple express server to demonstrate APIs
 * routing using react-router-dom
