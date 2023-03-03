@@ -9,7 +9,10 @@ div.todo {
 }
 
 div.todo:hover {
-    //box-shadow: 0px 2px 6px rgb(0 0 0 / 20%);
     cursor: pointer;
     background-color: rgb(178, 180, 216);
+}
+
+span.text {
+    flex-grow: 1;
 }

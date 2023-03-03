@@ -2,11 +2,11 @@
 * i18n
 * state management
 * formik, yup
-* react-router-dom
+* x react-router-dom
 * authentication
-* CCS grid layout, scss
-* google fonts
-* styled components
+* x CCS grid layout, scss
+* x google fonts
+* x styled components
 
 # Getting Started with Create React App
 

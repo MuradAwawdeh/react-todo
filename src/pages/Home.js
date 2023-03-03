@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Todos from "../components/Todos";
 import Input from "../components/styled-components/Input";
 import Button from "../components/styled-components/Button";
+import { FaPlus } from "react-icons/fa";
 
 export default function Home() {
     const [todos, setTodos] = useState([]);
     const [isInputShown, setIsInputShown] = useState(false);
+    const [todoText, setTodoText] = useState("");
+    const inputRef = useRef();
     useEffect(() => {
         async function fetchTodos(){
             let res = await fetch(process.env.REACT_APP_TODOS_URL);
@@ -27,14 +30,58 @@ export default function Home() {
             });
         });
     };
+    const onTodoDelete = (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if(window.confirm("Are you sure?")) {
+            setTodos((current) => {
+                return current.filter((todo)=>{
+                    return todo.id !== id;
+                })
+            })
+        }
+    };
+    const addTodo = () => {
+        if(todoText.trim() !== ''){
+            setTodos((current) => {
+                return [{
+                    id: current.length + 1,
+                    title: todoText,
+                    completed: false
+                }, ...current];
+            });
+            setTodoText("");
+            setIsInputShown(false);  
+        }
+    };
+    const onAddButtonClick = () => {
+        if(!isInputShown) {
+            setIsInputShown(true);
+            inputRef.current.focus();
+        }else {
+            addTodo();
+        }
+    };
+    const onKeyUP = (e) => {
+        if(e.keyCode === 13)
+            addTodo();
+    };
     return (
         <div style={styles.container}>
             <div style={styles.header}>
                 <h1 style={styles.h1}>Todos List:</h1>
-                <Button onClick={() => setIsInputShown(!isInputShown)}>Add Todo</Button>
-                <Input style={!isInputShown?{width: '0px', visibility: 'hidden'}:{width: '150px', marginInlineStart: '5px'}}/>
+                <Button style={styles.button} onClick={() => onAddButtonClick()}><FaPlus /> Add Todo</Button>
+                <div style={{...styles.inputContainer,
+                             width: isInputShown?'100px':'0px',
+                             marginInlineStart: isInputShown?'5px':'0px'}}>
+                    <Input ref={inputRef}
+                           style={styles.input}
+                           value={todoText}
+                           onChange={(e) => setTodoText(e.target.value)}
+                           onKeyUp={(e) => onKeyUP(e)}/>
+                </div>
             </div>
-            <Todos todos={todos} onTodoToggle={onTodoToggle}/>
+            <Todos todos={todos} onTodoToggle={onTodoToggle} onTodoDelete={onTodoDelete}/>
         </div>
     );
 }
@@ -52,7 +99,17 @@ const styles = {
     h1: {
         flexGrow: 1
     },
+    inputContainer: {
+        transition: 'all 0.2s',
+        width: '0px',
+        overflow:'hidden'
+    },
     input: {
-        transition: 'all 5.2s'
+        width: '100%'
+    },
+    button: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px'
     }
 }
