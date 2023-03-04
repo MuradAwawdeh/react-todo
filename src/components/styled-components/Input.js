@@ -7,6 +7,7 @@ const Input = styled.input`
     transition: all 0.2s;
     width: 100%;
     border-width: 1px;
+    border-color: ${props => (props.hasError? "red" : "#000000")};
     &:focus {
         box-shadow: 0 0 4px 2px #00000033;
     }

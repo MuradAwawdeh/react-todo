@@ -8,6 +8,10 @@
 * formik, yup
 * styled components
 
+## Live demo
+
+### [https://react-todo-seven-rho.vercel.app](https://react-todo-seven-rho.vercel.app)
+
 ## Available Scripts
 
 In the project directory, you can run:

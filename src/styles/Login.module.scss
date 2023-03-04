@@ -24,7 +24,14 @@
     margin: 0px;
 }
 
+.error {
+    color: red;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
 .alert {
     text-align: center;
-    color: red;
+    @extend .error;
 }
+
